@@ -3,17 +3,27 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-const PORT = 3000;
+
+// Use Railway's port or fallback to 3000 locally
+const PORT = process.env.PORT || 3000;
+
+// Load environment variables (only works locally, Railway handles it automatically)
+require("dotenv").config();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public")); // Serve frontend files
 
-// Connect to MongoDB
-mongoose.connect("mongodb://127.0.0.1:27017/votingDB", {
+// Connect to MongoDB using environment variable
+mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+})
+.then(() => console.log("✅ Connected to MongoDB"))
+.catch(err => {
+    console.error("❌ MongoDB connection error:", err);
+    process.exit(1); // Stop server if DB fails
 });
 
 // Define the vote schema
@@ -54,29 +64,24 @@ app.post("/vote", async (req, res) => {
             return res.status(400).json({ error: "Invalid number" });
         }
 
-        // Check if this IP has voted in the last 24 hours
         const existingIPVote = await IPVote.findOne({ ip });
+        const now = new Date();
+        const twentyFourHours = 24 * 60 * 60 * 1000;
 
         if (existingIPVote) {
-            const now = new Date();
             const timeDiff = now - existingIPVote.lastVotedAt;
-            const twentyFourHours = 24 * 60 * 60 * 1000;
-
             if (timeDiff < twentyFourHours) {
                 const hoursLeft = Math.ceil((twentyFourHours - timeDiff) / (1000 * 60 * 60));
                 return res.status(429).json({
                     error: `You already voted. Please wait ${hoursLeft} hour(s) before voting again.`,
                 });
             }
-
-            // Update timestamp
             existingIPVote.lastVotedAt = now;
             await existingIPVote.save();
         } else {
-            await IPVote.create({ ip, lastVotedAt: new Date() });
+            await IPVote.create({ ip, lastVotedAt: now });
         }
 
-        // Update vote count
         const updatedVote = await Vote.findOneAndUpdate(
             { number },
             { $inc: { count: 1 } },
@@ -111,7 +116,7 @@ app.get("/results", async (req, res) => {
 app.post("/reset", async (req, res) => {
     try {
         await Vote.updateMany({}, { $set: { count: 0 } });
-        await IPVote.deleteMany({}); // Also reset IP voting records
+        await IPVote.deleteMany({});
         res.json({ success: true, message: "All votes and IP records have been reset!" });
     } catch (error) {
         console.error("Error resetting votes:", error);
@@ -121,5 +126,5 @@ app.post("/reset", async (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`✅ Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote for Your Experience</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffffff; /* White background */
+            color: #BF2431; /* Red text */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 90%;
+            margin: 40px auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .logo {
+            width: 60%;
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 6vw; /* Responsive font size */
+        }
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        button {
+            font-size: 5vw; /* Emoji size */
+            padding: 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #BF2431; /* Red */
+            color: #ffffff; /* White text */
+            transition: 0.3s;
+            width: 90px; /* Adjusted for emojis */
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button:hover {
+            background-color: #9E1F2A; /* Darker red */
+        }
+        #message {
+            font-size: 4vw;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* Mobile optimization */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+            button {
+                width: 80px;
+                height: 80px;
+                font-size: 6vw;
+            }
+            h1 {
+                font-size: 7vw;
+            }
+            #message {
+                font-size: 5vw;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="CanU_Image.png" alt="Logo" class="logo"> <!-- Add the logo -->
+        <h1>How was your day at CanU today?</h1>
+        <div class="btn-container">
+            <button onclick="vote(1)">😭</button>
+            <button onclick="vote(2)">🙁</button>
+            <button onclick="vote(3)">😐</button>
+            <button onclick="vote(4)">🙂</button>
+            <button onclick="vote(5)">😃</button>
+        </div>
+        <p id="message"></p>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

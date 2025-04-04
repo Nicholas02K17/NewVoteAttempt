@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffffff; /* White background */
+            color: #BF2431; /* Red text */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 90%;
+            margin: 40px auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .logo {
+            width: 60%;
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 6vw; /* Responsive font size */
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 100%; /* Full width for mobile */
+            background-color: #ffffff; /* White table background */
+            border: 2px solid #BF2431; /* Red border */
+        }
+        th, td {
+            border: 1px solid #BF2431; /* Red border */
+            padding: 10px;
+            font-size: 4vw;
+        }
+        th {
+            background-color: #BF2431; /* Red header */
+            color: #ffffff; /* White text */
+        }
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        button {
+            font-size: 5vw;
+            padding: 12px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #BF2431; /* Red */
+            color: #ffffff; /* White text */
+            transition: 0.3s;
+            width: 80%; /* Responsive width */
+        }
+        button:hover {
+            background-color: #9E1F2A; /* Darker red */
+        }
+
+        /* Mobile optimization */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+            button {
+                width: 90%; /* Full width for touch */
+            }
+            th, td {
+                font-size: 5vw;
+            }
+            h1 {
+                font-size: 7vw;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="CanU_Image.png" alt="Logo" class="logo"> <!-- Add the logo -->
+        <h1>Vote Results</h1>
+        <table>
+            <tr>
+                <th>Feedback</th>
+                <th>Votes</th>
+            </tr>
+            <tr><td>😭</td><td id="vote-1">0</td></tr>
+            <tr><td>🙁</td><td id="vote-2">0</td></tr>
+            <tr><td>😐</td><td id="vote-3">0</td></tr>
+            <tr><td>🙂</td><td id="vote-4">0</td></tr>
+            <tr><td>😃</td><td id="vote-5">0</td></tr>
+        </table>
+
+        <div class="btn-container">
+            <button onclick="fetchResults()">Refresh Results</button>
+            <button onclick="resetVotes()">Reset Votes</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

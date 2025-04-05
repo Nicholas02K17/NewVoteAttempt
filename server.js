@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.static("public")); // Serve frontend files
 
 // Connect to MongoDB using environment variable
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
